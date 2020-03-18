@@ -1,28 +1,11 @@
 #!/usr/bin/env python3
 
-import logging
-import proverbiosemojies
-import everything_formula.everything_formula
+import proverbsemojies
+#import everything_formula.everything_formula
 
 import flask
 from flask import request
 app = flask.Flask(__name__)
-
-def create_logger(name: str, filename: str) -> logging.Logger:
-    """Create a logger with name ``name`` that logs to the file ``filename``.
-
-    The logger returned is set to DEBUG level.
-    This is based off of the logging cookbook available at
-    https://docs.python.org/3/howto/logging-cookbook.html#logging-cookbook.
-    """
-
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
-    logger_file_handler = logging.FileHandler(filename, encoding = "utf-8")
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger_file_handler.setFormatter(formatter)
-    logger.addHandler(logger_file_handler)
-    return logger
 
 # Isto é necessário para correr a app numa path diferente de / (e.g. '/python')
 # http://flask.pocoo.org/snippets/35/
@@ -47,16 +30,16 @@ app.wsgi_app = ReverseProxied(app.wsgi_app)
 def hello():
     return "hello!"
 
-proverb_logger = create_logger("proverbs", "proverbios.log")
-@app.route('/proverbiosemojies_webhook', methods = ["POST", "GET"])
+@app.route('/proverbsemojies_webhook', methods = ["POST", "GET"])
 def webhook():
-    return proverbiosemojies.webhook(proverb_logger)
+    return proverbsemojies.webhook()
 
+"""
 # as seen in http://mathspp.blogspot.com/2019/04/the-formula-that-plots-itself.html
 @app.route('/everything_formula')
 def everything_formula_webhook():
     return everything_formula.everything_formula.webhook()
-
+"""
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0', port=8888)
