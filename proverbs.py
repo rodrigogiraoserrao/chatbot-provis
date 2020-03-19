@@ -9,5 +9,10 @@ proverbs = [
         "id": 2,
         "emojies": "\U0001F40E \U0001F3B2 \U0001F648 \U0001F600", # horse + die + see-no-evil monkey + grinning face
         "intent": "proverb_dont_check_teeth_of_gifted_horse"
+    },
+    {
+        "id": 3,
+        "emojies": "\U0001F30D \U0001F648 \U0001F61C \U0001F451", # globe showing Europe-Africa + see-no-evil monkey + winking face with tongue + crown
+        "intent": "proverb_one_eye_rules_over_the_blind"
     }
 ]
