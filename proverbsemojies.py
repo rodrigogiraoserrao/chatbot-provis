@@ -49,26 +49,42 @@ def save_user_data(req, user_data):
     with open(DATAFILE, "w", encoding="utf-8") as f:
         json.dump(data, f)
 
+def make_reply(req, text):
+    req["fulfillmentText"] = text
+
+    return req
+
 def main_play(req):
     user_data = load_user_data(req)
-    found = set(user_data.get("found", []))
+    found = set(user_data.setdefault("found", []))
+    finding_id = user_data.setdefault("finding_id", None)
 
-    existing = set(range(len(proverbs)))
-    to_be_found = list(existing - found)
+    if finding_id:
+        emojies = user_data["emojies"]
+        return make_reply(req, emojies + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
+
+    existing_ids = {proverb["id"] for proverb in proverbs}
+    to_be_found = list(existing_ids - found)
 
     if not to_be_found:
-        req["fulfillmentText"] = "Já descobriste todos os provérbios!"
-        return req
+        return make_reply(req, "Já descobriste todos os provérbios!")
 
-    proverb_index = random.choice(to_be_found)
-    proverb = proverbs[proverb_index][0]
-    req["fulfillmentText"] = proverb
-    user_data["finding"] = proverb_index
+    proverb_id = random.choice(to_be_found)
+    for proverb in proverbs:
+        if proverb["id"] == proverb_id:
+            break
+
+    req = make_reply(req, proverb["emojies"])
+    user_data["emojies"] = proverb["emojies"]
+    user_data["finding_id"] = proverb_id
 
     save_user_data(req, user_data)
 
     return req
 
+
+def check_proverb(req):
+    pass
 
 logger = create_logger("proverbs", "proverbios.log")
 def webhook():
@@ -77,7 +93,7 @@ def webhook():
     req_json = request.json
 
     # Log the request
-    logger.debug(json.dumps(req_json))
+    logger.debug(json.dumps(req_json, indent=4, sort_keys=True))
 
     # Fetch the intent name
     intent_name = req_json["queryResult"]["intent"]["displayName"]
@@ -85,5 +101,8 @@ def webhook():
 
     if intent_name == "main_play":
         req_json = main_play(req_json)
+
+    elif intent_name.startswith("proverb_"):
+        req_json = check_proverb(req_json)
 
     return flask.jsonify(req_json)
