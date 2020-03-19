@@ -84,7 +84,28 @@ def main_play(req):
 
 
 def check_proverb(req):
-    pass
+    user_data = load_user_data(req)
+    finding_id = user_data.setdefault("finding_id", None)
+
+    if not finding_id:
+        return make_reply(req, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
+
+    intent_name = req["queryResult"]["intent"]["displayName"]
+
+    # Look for the proverb with the ID of the proverb the user is trying
+    ## to guess and check if the intents match
+    for proverb in proverbs:
+        if finding_id == proverb["id"] and intent_name == proverb["intent"]:
+            found = user_data.setdefault("found", [])
+            found.append(finding_id)
+            user_data["found"] = found
+            user_data["finding_id"] = None
+            save_user_data(req, user_data)
+            return make_reply(req, "Certíssimo!")
+
+        elif finding_id == proverb["id"]:
+            return make_reply(req, "Woops, erraste...")
+
 
 logger = create_logger("proverbs", "proverbios.log")
 def webhook():
