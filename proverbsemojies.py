@@ -174,12 +174,18 @@ def webhook():
     intent_name = req_json["queryResult"]["intent"]["displayName"]
     logger.debug(f"Got intent '{intent_name}'")
 
-    if intent_name == "main_play":
-        req_json = main_play(req_json)
+    # Map some intents to some handlers
+    intent_mapping = {
+        "main_play": main_play,
+        "main_give_up": main_give_up,
+        "main_hint": main_hint,
+        "main_progress": main_progress,
+        "main_make_suggestion": main_make_suggestion
+    }
 
-    elif intent_name == "main_give_up":
-        req_json = main_play(req_json)
-
+    if intent_name in intent_mapping:
+        func = intent_mapping[intent_name]
+        req_json = func(req_json)
     elif intent_name.startswith("proverb_"):
         req_json = check_proverb(req_json)
 
