@@ -154,6 +154,7 @@ def check_proverb(req):
             found.append(finding_id)
             user_data["found"] = found
             user_data["finding_id"] = None
+            user_data["emojies"] = ""
             save_user_data(req, user_data)
             return make_reply(req, get_random_string(CORRECT))
 
