@@ -1,6 +1,7 @@
 import json
 import logging
 import random
+from typing import Union, List
 
 DATAFILE = "data/data.json"
 # The template user data:
@@ -28,7 +29,7 @@ def create_logger(name: str, filename: str) -> logging.Logger:
     logger.addHandler(logger_file_handler)
     return logger
 
-def copy_dict(*, source, dest, maxdepth=0):
+def copy_dict(*, source: dict, dest: dict, maxdepth: int = 0) -> dict:
     """Given a source dictionary, recursively copy its keys to another dict.
 
     The values of the destination dictionary will be of the same type as the
@@ -53,7 +54,7 @@ def copy_dict(*, source, dest, maxdepth=0):
 
     return dest
 
-def load_user_data(req):
+def load_user_data(req: dict) -> dict:
     with open(DATAFILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -68,7 +69,7 @@ def load_user_data(req):
         user_data = copy_dict(source=TEMPLATE_USER_DATA, dest=user_data)
     return user_data
 
-def save_user_data(req, user_data):
+def save_user_data(req: dict, user_data: dict) -> None:
     with open(DATAFILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -82,7 +83,7 @@ def save_user_data(req, user_data):
     with open(DATAFILE, "w", encoding="utf-8") as f:
         json.dump(data, f)
 
-def get_random_string(choices):
+def get_random_string(choices: Union[List[str], List[List[str]]]) -> str:
     """Build a random reply from the given set of option strings.
 
     `choices` might be a list of strings, in which case a random choice
