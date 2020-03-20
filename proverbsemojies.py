@@ -80,11 +80,34 @@ def get_random_string(choices):
         return "".join(random.choice(subl for subl in choices))
 
 def make_reply(req, text):
-    req["fulfillmentText"] = text
+    """Helper function to set the reply text."""
 
+    req["fulfillmentText"] = text
+    return req
+
+def main_give_up(req):
+    """Called when the user wants to give up on a given proverb."""
+    # (TODO)
+    return req
+
+def main_hint(req):
+    """Called when the user asks for a hint on a given proverb."""
+    # (TODO)
+    return req
+
+def main_progress(req):
+    """Called when the user asks for its progress."""
+    # (TODO)
+    return req
+
+def main_make_suggestion(req):
+    """Called when the user wants to make a new suggestion."""
+    # (TODO)
     return req
 
 def main_play(req):
+    """Called when the user wants to play."""
+
     user_data = load_user_data(req)
     found = set(user_data.setdefault("found", []))
     finding_id = user_data.setdefault("finding_id", None)
@@ -112,8 +135,9 @@ def main_play(req):
 
     return req
 
-
 def check_proverb(req):
+    """Check if the proverb the user said is correct or not."""
+
     user_data = load_user_data(req)
     finding_id = user_data.setdefault("finding_id", None)
 
@@ -151,6 +175,9 @@ def webhook():
     logger.debug(f"Got intent '{intent_name}'")
 
     if intent_name == "main_play":
+        req_json = main_play(req_json)
+
+    elif intent_name == "main_give_up":
         req_json = main_play(req_json)
 
     elif intent_name.startswith("proverb_"):
