@@ -4,3 +4,4 @@ everything_formula/*
 *.json
 *.log
 ngrok.exe
+data/*
