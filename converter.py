@@ -7,7 +7,7 @@ import unicodedata
 
 CONVERSION_TEMPLATE = """{{
     "id": {prov_id},
-    "emojies": "{conv}", # {names}
+    "emojis": "{conv}", # {names}
     "intent": None
 }},\n"""
 

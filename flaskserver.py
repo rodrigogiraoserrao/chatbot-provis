@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import proverbsemojies
+import proverbsemojis
 #import everything_formula.everything_formula
 
 import flask
@@ -30,9 +30,9 @@ app.wsgi_app = ReverseProxied(app.wsgi_app)
 def hello():
     return "hello!"
 
-@app.route('/proverbsemojies_webhook', methods = ["POST", "GET"])
+@app.route('/proverbsemojis_webhook', methods = ["POST", "GET"])
 def webhook():
-    return proverbsemojies.webhook()
+    return proverbsemojis.webhook()
 
 """
 # as seen in http://mathspp.blogspot.com/2019/04/the-formula-that-plots-itself.html

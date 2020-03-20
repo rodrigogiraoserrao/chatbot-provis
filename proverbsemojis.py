@@ -113,8 +113,8 @@ def main_play(req):
     finding_id = user_data.setdefault("finding_id", None)
 
     if finding_id:
-        emojies = user_data["emojies"]
-        return make_reply(req, emojies + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
+        emojis = user_data["emojis"]
+        return make_reply(req, emojis + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
 
     existing_ids = {proverb["id"] for proverb in proverbs}
     to_be_found = list(existing_ids - found)
@@ -127,8 +127,8 @@ def main_play(req):
         if proverb["id"] == proverb_id:
             break
 
-    req = make_reply(req, proverb["emojies"])
-    user_data["emojies"] = proverb["emojies"]
+    req = make_reply(req, proverb["emojis"])
+    user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
 
     save_user_data(req, user_data)
@@ -154,7 +154,7 @@ def check_proverb(req):
             found.append(finding_id)
             user_data["found"] = found
             user_data["finding_id"] = None
-            user_data["emojies"] = ""
+            user_data["emojis"] = ""
             save_user_data(req, user_data)
             return make_reply(req, get_random_string(CORRECT))
 
