@@ -8,6 +8,16 @@ from proverbs import proverbs
 
 DATAFILE = "data/data.json"
 
+# Replies for when the user gets the correct proverb.
+CORRECT = [
+    "Certo!",
+    "Certíssimo!",
+    "Correto!",
+    "Acertaste!",
+    "É isso mesmo!",
+    "Mesmo na mouche!"
+]
+
 def create_logger(name: str, filename: str) -> logging.Logger:
     """Create a logger with name ``name`` that logs to the file ``filename``.
 
@@ -121,7 +131,7 @@ def check_proverb(req):
             user_data["found"] = found
             user_data["finding_id"] = None
             save_user_data(req, user_data)
-            return make_reply(req, "Certíssimo!")
+            return make_reply(req, get_random_string(CORRECT))
 
         elif finding_id == proverb["id"]:
             return make_reply(req, "Woops, erraste...")
