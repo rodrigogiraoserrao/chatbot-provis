@@ -6,7 +6,7 @@ import random
 
 from proverbs import proverbs
 
-DATAFILE = "data.json"
+DATAFILE = "data/data.json"
 
 def create_logger(name: str, filename: str) -> logging.Logger:
     """Create a logger with name ``name`` that logs to the file ``filename``.
@@ -48,6 +48,26 @@ def save_user_data(req, user_data):
 
     with open(DATAFILE, "w", encoding="utf-8") as f:
         json.dump(data, f)
+
+def get_random_string(choices):
+    """Build a random reply from the given set of option strings.
+
+    `choices` might be a list of strings, in which case a random choice
+        is returned, or
+    `choices` might be a list of lists of strings, in which case a concatenation
+        of random choices from each sub-list is returned.
+    Examples:
+        ["a", "b", "c"] -> "a"
+        [["a", "A"], ["b"], ["c", "C"]] -> "abC"
+    """
+
+    if not choices:
+        return ""
+
+    if type(choices[0]) == str:
+        return random.choice(choices)
+    else:
+        return "".join(random.choice(subl for subl in choices))
 
 def make_reply(req, text):
     req["fulfillmentText"] = text
