@@ -5,6 +5,12 @@ import re
 import sys
 import unicodedata
 
+CONVERSION_TEMPLATE = """{{
+    "id": {prov_id},
+    "emojies": "{conv}", # {names}
+    "intent": None
+}},\n"""
+
 escape_sequence_re = re.compile(r".*(\\[uU][0-9a-fA-F]+)")
 
 def escape(char):
@@ -15,6 +21,7 @@ def escape(char):
         return match.group(1), unicodedata.name(char)
     else:
         raise ValueError(f"Could not escape {char}")
+
 
 if __name__ == "__main__":
     try:
@@ -29,6 +36,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print(f"File {filename} not found!")
 
+    # List of pairs (conversion, list of emojie names)
     converted_lines = []
     for line in lines:
         new_line = ""
@@ -41,10 +49,17 @@ if __name__ == "__main__":
                 names.append(f"({name})")
                 new_line += escaped
 
-        converted_lines.append(new_line + " ".join(names))
+        new_line = new_line.strip()
+
+        converted_lines.append((new_line, names))
 
     file_name, file_ext = os.path.splitext(filename)
     file_name = file_name + "_conv" + file_ext
     
     with open(file_name, "w", encoding="utf8") as f:
-        f.write("\n".join(converted_lines))
+        for line, (conv, names) in enumerate(converted_lines):
+            f.write(CONVERSION_TEMPLATE.format(
+                prov_id = line + 1,
+                conv = conv,
+                names = " ".join(names)
+            ))
