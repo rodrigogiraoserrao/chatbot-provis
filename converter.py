@@ -58,8 +58,9 @@ if __name__ == "__main__":
     
     with open(file_name, "w", encoding="utf8") as f:
         for line, (conv, names) in enumerate(converted_lines):
-            f.write(CONVERSION_TEMPLATE.format(
-                prov_id = line + 1,
-                conv = conv,
-                names = " ".join(names)
-            ))
+            if conv:
+                f.write(CONVERSION_TEMPLATE.format(
+                    prov_id = line + 1,
+                    conv = conv,
+                    names = " ".join(names)
+                ))
