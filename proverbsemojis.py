@@ -7,6 +7,14 @@ import random
 from proverbs import proverbs
 
 DATAFILE = "data/data.json"
+# The template user data:
+TEMPLATE_USER_DATA = {
+    "found": [],
+    "finding_id": 0,
+    "emojis": "",
+    "hint_given": False,
+    "hints_given": 0
+}
 
 # Replies for when the user gets the correct proverb.
 CORRECT = [
@@ -34,6 +42,31 @@ def create_logger(name: str, filename: str) -> logging.Logger:
     logger.addHandler(logger_file_handler)
     return logger
 
+def copy_dict(*, source, dest, maxdepth=0):
+    """Given a source dictionary, recursively copy its keys to another dict.
+
+    The values of the destination dictionary will be of the same type as the
+        corresponding values in the source dictionary, but will be empty.
+
+    The integer maxdepth sets a limit to the recursion depth of the copy.
+    A recursion depth of 0 (the minimum) only copies the current level.
+    """
+    
+    if maxdepth < 0:
+        return dest
+    
+    for key, value in source.items():
+        if key not in dest:
+            # Get the type of the value
+            if (typ := type(value)) == dict:
+                sub_dest = copy_dict(source=value, dest={}, maxdepth=maxdepth-1)
+                dest[key] = sub_dest
+            else:
+                # Create the "empty" value of the correct type, e.g. [] or ""
+                dest[key] = typ()
+
+    return dest
+
 def load_user_data(req):
     with open(DATAFILE, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -43,7 +76,11 @@ def load_user_data(req):
     except KeyError:
         user_id = "__no_id_found__"
 
-    return data.get(user_id, {})
+    user_data = data.get(user_id, {})
+    # Initialize all the needed empty fields
+    if not user_data:
+        user_data = copy_dict(source=TEMPLATE_USER_DATA, dest=user_data)
+    return user_data
 
 def save_user_data(req, user_data):
     with open(DATAFILE, "r", encoding="utf-8") as f:
