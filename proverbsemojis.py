@@ -101,20 +101,19 @@ def check_proverb(req):
 
     intent_name = req["queryResult"]["intent"]["displayName"]
 
-    # Look for the proverb with the ID of the proverb the user is trying
-    ## to guess and check if the intents match
-    for proverb in proverbs:
-        if finding_id == proverb["id"] and intent_name == proverb["intent"]:
-            found = user_data.setdefault("found", [])
-            found.append(finding_id)
-            user_data["found"] = found
-            user_data["finding_id"] = None
-            user_data["emojis"] = ""
-            save_user_data(req, user_data)
-            return make_reply(req, get_random_string(CORRECT))
+    # Get the proverb the player is trying to guess and check for correct guess
+    proverb = proverbs[finding_id]
+    if intent_name == proverb["intent"]:
+        found = user_data.setdefault("found", [])
+        found.append(finding_id)
+        user_data["found"] = found
+        user_data["finding_id"] = None
+        user_data["emojis"] = ""
+        save_user_data(req, user_data)
+        return make_reply(req, get_random_string(CORRECT))
 
-        elif finding_id == proverb["id"]:
-            return make_reply(req, "Woops, erraste...")
+    else:
+        return make_reply(req, "Woops, erraste...")
 
 
 logger = create_logger("proverbs", "proverbios.log")
