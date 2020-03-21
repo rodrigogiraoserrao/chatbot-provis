@@ -44,17 +44,17 @@ def main_give_up(req):
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
     # (TODO)
-    return req
+    return new_response()
 
 def main_progress(req):
     """Called when the user asks for its progress."""
     # (TODO)
-    return req
+    return new_response()
 
 def main_make_suggestion(req):
     """Called when the user wants to make a new suggestion."""
     # (TODO)
-    return req
+    return new_response()
 
 def main_play(req):
     """Called when the user wants to play."""
