@@ -5,10 +5,10 @@ import re
 import sys
 import unicodedata
 
-CONVERSION_TEMPLATE = """{{
-    "id": {prov_id},
+CONVERSION_TEMPLATE = """{prov_id}: {{
     "emojis": "{conv}", # {names}
-    "intent": None
+    "intent": None,
+    "hint": None
 }},\n"""
 
 escape_sequence_re = re.compile(r".*(\\[uU][0-9a-fA-F]+)")
