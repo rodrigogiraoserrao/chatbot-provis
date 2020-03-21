@@ -94,7 +94,7 @@ def check_proverb(req):
     """Check if the proverb the user said is correct or not."""
 
     user_data = load_user_data(req)
-    finding_id = user_data.setdefault("finding_id", None)
+    finding_id = user_data.setdefault("finding_id", 0)
 
     if not finding_id:
         return make_reply(req, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
