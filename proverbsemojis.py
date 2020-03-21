@@ -71,7 +71,7 @@ def main_play(req):
     resp = new_response()
     user_data = load_user_data(req)
     found = set(user_data.setdefault("found", []))
-    finding_id = user_data.setdefault("finding_id", None)
+    finding_id = user_data.setdefault("finding_id", 0)
 
     if finding_id:
         emojis = user_data["emojis"]
