@@ -24,6 +24,7 @@ def add_quick_replies(resp: dict, title: str, qreplies: List[str]) -> dict:
         }
     })
     resp["fulfillmentMessages"] = fulfillment_messages
+    
     return resp
 
 def new_response() -> dict:
@@ -44,7 +45,7 @@ def add_text(resp: dict, text: str) -> dict:
     for dic in resp["fulfillmentMessages"]:
         if "text" in dic:
             dic["text"]["text"].append(text)
-    return dic
+    return resp
 
 def create_logger(name: str, filename: str) -> logging.Logger:
     """Create a logger with name ``name`` that logs to the file ``filename``.
@@ -100,6 +101,7 @@ def load_user_data(req: dict) -> dict:
     # Initialize all the needed empty fields
     if not user_data:
         user_data = copy_dict(source=TEMPLATE_USER_DATA, dest=user_data)
+    
     return user_data
 
 def save_user_data(req: dict, user_data: dict) -> None:

@@ -86,7 +86,7 @@ def main_play(req):
     proverb_id = random.choice(to_be_found)
     proverb = proverbs[proverb_id]
 
-    req = add_text(resp, proverb["emojis"])
+    resp = add_text(resp, proverb["emojis"])
     user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
 
