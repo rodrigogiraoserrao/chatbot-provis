@@ -4,7 +4,8 @@ import json
 import random
 
 from proverbs import proverbs
-from utils import load_user_data, save_user_data, get_random_string, create_logger
+from utils import load_user_data, save_user_data, get_random_string, \
+                    create_logger, new_response, add_quick_replies
 
 # Replies for when the user gets the correct proverb.
 CORRECT = [
@@ -113,6 +114,9 @@ def check_proverb(req):
     else:
         return make_reply(req, "Woops, erraste...")
 
+def test(req: dict):
+    pre = new_response()
+    return add_quick_replies(pre, "teste", ["uma", "duas", "três"])
 
 logger = create_logger("proverbs", "proverbios.log")
 def webhook():
@@ -141,5 +145,7 @@ def webhook():
         req_json = func(req_json)
     elif intent_name.startswith("proverb_"):
         req_json = check_proverb(req_json)
+    elif intent_name == "teste":
+        req_json = test(req_json)
 
     return flask.jsonify(req_json)

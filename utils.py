@@ -13,6 +13,31 @@ TEMPLATE_USER_DATA = {
     "hints_given": 0
 }
 
+def add_quick_replies(resp: dict, title: str, qreplies: List[str]) -> dict:
+    """Adds the given quick replies to the response dictionary."""
+
+    fulfillment_messages = resp.get("fulfillmentMessages", [])
+    fulfillment_messages.append({
+        "quickReplies": {
+            "title": title,
+            "quickReplies": qreplies
+        }
+    })
+    resp["fulfillmentMessages"] = fulfillment_messages
+    return resp
+
+def new_response() -> dict:
+    """Creates the template for a new webhook response."""
+    return {
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": []
+                }
+            }
+        ]
+    }
+
 def create_logger(name: str, filename: str) -> logging.Logger:
     """Create a logger with name ``name`` that logs to the file ``filename``.
 
