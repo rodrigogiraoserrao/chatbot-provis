@@ -7,6 +7,15 @@ from proverbs import proverbs
 from utils import load_user_data, save_user_data, get_random_string, \
                     create_logger, new_response, add_quick_replies, add_text
 
+# Quick replies
+QR_PLAY = "Jogar 🎮"
+QR_PLAY_AGAIN = "Jogar outro 🎮"
+QR_GIVE_UP = "Desistir 😢"
+QR_HINT = "Pista 🔎"
+QR_PROGRESS = "Progresso 🥉🥈🥇"
+QR_SUGGESTION = "Sugerir provérbio 👨"
+QR_GOODBYE = "Adeus! 👋"
+
 # Replies for when the user gets the correct proverb.
 CORRECT = [
     "Certo!",
@@ -93,12 +102,21 @@ def check_proverb(req):
     finding_id = user_data.setdefault("finding_id", 0)
 
     if not finding_id:
-        return add_text(resp, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
+        resp = add_text(resp, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
+        return add_quick_replies(resp,
+                                "Ou escolhe qualquer uma das outras opções...",
+                                [
+                                    QR_PLAY,
+                                    QR_PROGRESS,
+                                    QR_SUGGESTION,
+                                    QR_GOODBYE
+                                ])
 
     intent_name = req["queryResult"]["intent"]["displayName"]
 
     # Get the proverb the player is trying to guess and check for correct guess
     proverb = proverbs[finding_id]
+    # If the intents match, the player got it right!
     if intent_name == proverb["intent"]:
         found = user_data.setdefault("found", [])
         found.append(finding_id)
@@ -106,10 +124,28 @@ def check_proverb(req):
         user_data["finding_id"] = None
         user_data["emojis"] = ""
         save_user_data(req, user_data)
-        return add_text(resp, get_random_string(CORRECT))
+
+        resp = add_text(resp, get_random_string(CORRECT))
+        return add_quick_replies(resp,
+                                "E agora?",
+                                [
+                                    QR_PLAY_AGAIN,
+                                    QR_PROGRESS,
+                                    QR_SUGGESTION,
+                                    QR_GOODBYE
+                                ])
 
     else:
-        return add_text(resp, "Woops, erraste...")
+        resp = add_text(resp, "Woops, erraste...")
+        return add_quick_replies(resp,
+                                "Tenta outra vez!",
+                                [
+                                    QR_HINT,
+                                    QR_GIVE_UP,
+                                    QR_PROGRESS,
+                                    QR_SUGGESTION,
+                                    QR_GOODBYE
+                                ])
 
 def test(req: dict):
     pre = new_response()
