@@ -38,6 +38,14 @@ def new_response() -> dict:
         ]
     }
 
+def add_text(resp: dict, text: str) -> dict:
+    """Adds the given text to the textual response of the webhook."""
+    
+    for dic in resp["fulfillmentMessages"]:
+        if "text" in dic:
+            dic["text"]["text"].append(text)
+    return dic
+
 def create_logger(name: str, filename: str) -> logging.Logger:
     """Create a logger with name ``name`` that logs to the file ``filename``.
 
