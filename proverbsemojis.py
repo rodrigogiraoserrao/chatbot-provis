@@ -71,16 +71,14 @@ def main_play(req):
         emojis = user_data["emojis"]
         return make_reply(req, emojis + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
 
-    existing_ids = {proverb["id"] for proverb in proverbs}
+    existing_ids = {*proverbs.keys()}
     to_be_found = list(existing_ids - found)
 
     if not to_be_found:
         return make_reply(req, "Já descobriste todos os provérbios!")
 
     proverb_id = random.choice(to_be_found)
-    for proverb in proverbs:
-        if proverb["id"] == proverb_id:
-            break
+    proverb = proverbs[proverb_id]
 
     req = make_reply(req, proverb["emojis"])
     user_data["emojis"] = proverb["emojis"]
