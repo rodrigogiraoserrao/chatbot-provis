@@ -5,7 +5,7 @@ import random
 
 from proverbs import proverbs
 from utils import load_user_data, save_user_data, get_random_string, \
-                    create_logger, new_response, add_quick_replies
+                    create_logger, new_response, add_quick_replies, add_text
 
 # Replies for when the user gets the correct proverb.
 CORRECT = [
@@ -21,22 +21,17 @@ GIVE_UP = [
     "É uma pena desistires..."
 ]
 
-def make_reply(req, text):
-    """Helper function to set the reply text."""
-
-    req["fulfillmentText"] = text
-    return req
-
 def main_give_up(req):
     """Called when the user wants to give up on a given proverb."""
 
+    resp = new_response()
     user_data = load_user_data(req)
     # If the user isn't trying to guess any proverb, the user can't give up
     if not user_data["finding_id"]:
-        return make_reply(req, "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?")
+        return add_text(resp, "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?")
     # If the user has found all other proverbs, don't let the user give up
     if len(user_data["found"]) == len(proverbs) - 1:
-        return make_reply(req, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
+        return add_text(resp, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
 
     # Otherwise, stop signaling this proverb as the one being guessed
     user_data["finding_id"] = 0
@@ -44,7 +39,7 @@ def main_give_up(req):
     save_user_data(req, user_data)
 
     reply = get_random_string(GIVE_UP)
-    return make_reply(req, reply)
+    return add_text(resp, reply)
 
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
@@ -64,39 +59,41 @@ def main_make_suggestion(req):
 def main_play(req):
     """Called when the user wants to play."""
 
+    resp = new_response()
     user_data = load_user_data(req)
     found = set(user_data.setdefault("found", []))
     finding_id = user_data.setdefault("finding_id", None)
 
     if finding_id:
         emojis = user_data["emojis"]
-        return make_reply(req, emojis + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
+        return add_text(resp, emojis + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
 
     existing_ids = {*proverbs.keys()}
     to_be_found = list(existing_ids - found)
 
     if not to_be_found:
-        return make_reply(req, "Já descobriste todos os provérbios!")
+        return add_text(resp, "Já descobriste todos os provérbios!")
 
     proverb_id = random.choice(to_be_found)
     proverb = proverbs[proverb_id]
 
-    req = make_reply(req, proverb["emojis"])
+    req = add_text(resp, proverb["emojis"])
     user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
 
     save_user_data(req, user_data)
 
-    return req
+    return resp
 
 def check_proverb(req):
     """Check if the proverb the user said is correct or not."""
 
+    resp = new_response()
     user_data = load_user_data(req)
     finding_id = user_data.setdefault("finding_id", 0)
 
     if not finding_id:
-        return make_reply(req, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
+        return add_text(resp, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
 
     intent_name = req["queryResult"]["intent"]["displayName"]
 
@@ -109,10 +106,10 @@ def check_proverb(req):
         user_data["finding_id"] = None
         user_data["emojis"] = ""
         save_user_data(req, user_data)
-        return make_reply(req, get_random_string(CORRECT))
+        return add_text(resp, get_random_string(CORRECT))
 
     else:
-        return make_reply(req, "Woops, erraste...")
+        return add_text(resp, "Woops, erraste...")
 
 def test(req: dict):
     pre = new_response()
