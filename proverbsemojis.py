@@ -13,7 +13,7 @@ QR_PLAY_AGAIN = "Jogar outro 🎮"
 QR_GIVE_UP = "Desistir 😢"
 QR_HINT = "Pista 🔎"
 QR_PROGRESS = "Progresso 🥉🥈🥇"
-QR_SUGGESTION = "Sugerir provérbio 👨"
+QR_SUGGESTION = "Sugerir provérbio 👨‍🎓"
 QR_GOODBYE = "Adeus! 👋"
 
 # Replies for when the user gets the correct proverb.
