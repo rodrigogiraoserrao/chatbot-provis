@@ -16,6 +16,10 @@ CORRECT = [
     "Mesmo na mouche!"
 ]
 
+GIVE_UP = [
+    "É uma pena desistires..."
+]
+
 def make_reply(req, text):
     """Helper function to set the reply text."""
 
@@ -24,8 +28,22 @@ def make_reply(req, text):
 
 def main_give_up(req):
     """Called when the user wants to give up on a given proverb."""
-    # (TODO)
-    return req
+
+    user_data = load_user_data(req)
+    # If the user isn't trying to guess any proverb, the user can't give up
+    if not user_data["finding_id"]:
+        return make_reply(req, "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?")
+    # If the user has found all other proverbs, don't let the user give up
+    if len(user_data["found"]) == len(proverbs) - 1:
+        return make_reply(req, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
+
+    # Otherwise, stop signaling this proverb as the one being guessed
+    user_data["finding_id"] = 0
+    user_data["emojis"] = ""
+    save_user_data(req, user_data)
+
+    reply = get_random_string(GIVE_UP)
+    return make_reply(req, reply)
 
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
