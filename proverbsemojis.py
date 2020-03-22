@@ -73,8 +73,66 @@ def main_give_up(req):
 
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
-    # (TODO)
-    return new_response()
+    
+    resp = new_response()
+    user_data = load_user_data(resp)
+    if finding_id := user_data["finding_id"]:
+        hint = proverbs[finding_id]["hint"]
+        if not hint:
+            return add_quick_replies(
+                resp,
+                "Woops, para este provérbio não tenho nenhuma dica... Desculpa!",
+                [
+                    QR_GIVE_UP,
+                    QR_PROGRESS,
+                    QR_SUGGESTION,
+                    QR_GOODBYE,
+                    QR_INSTRUCTIONS
+                ]
+            )
+
+        if user_data["hint_given"]:
+            resp = add_text(resp, f"A dica que tenho para te dar é: {hint}")
+            return add_quick_replies(
+                resp,
+                "Mas já to tinha dito!",
+                [
+                    QR_GIVE_UP,
+                    QR_PROGRESS,
+                    QR_SUGGESTION,
+                    QR_GOODBYE,
+                    QR_INSTRUCTIONS
+                ]
+            )
+        else:
+            user_data["hint_given"] = True
+            user_data["hints_given"] += 1
+            save_user_data(req, user_data)
+            return add_quick_replies(
+                resp,
+                f"A dica que tenho para ti é: {hint}",
+                [
+                    QR_GIVE_UP,
+                    QR_PROGRESS,
+                    QR_SUGGESTION,
+                    QR_GOODBYE,
+                    QR_INSTRUCTIONS
+                ]
+            )
+
+    else:
+        # The user isn't trying to guess a proverb!
+        return add_quick_replies(
+            resp,
+            "Se não estás a adivinhar nenhum provérbio, queres uma pista de quê?",
+            [
+                QR_INSTRUCTIONS,
+                QR_PLAY,
+                QR_PROGRESS,
+                QR_SUGGESTION,
+                QR_GOODBYE
+            ]
+        )
 
 def main_progress(req):
     """Called when the user asks for its progress."""
