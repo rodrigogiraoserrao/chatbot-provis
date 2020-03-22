@@ -45,7 +45,8 @@ def main_give_up(req):
                 QR_PLAY,
                 QR_PROGRESS,
                 QR_SUGGESTION,
-                QR_GOODBYE
+                QR_GOODBYE,
+                QR_INSTRUCTIONS
             ]    
         )
     # If the user has found all other proverbs, don't let the user give up
@@ -65,7 +66,8 @@ def main_give_up(req):
             QR_PLAY_AGAIN,
             QR_PROGRESS,
             QR_SUGGESTION,
-            QR_GOODBYE
+            QR_GOODBYE,
+            QR_INSTRUCTIONS
         ]    
     )
 
@@ -103,7 +105,8 @@ def main_play(req):
                 QR_GIVE_UP,
                 QR_PROGRESS,
                 QR_SUGGESTION,
-                QR_GOODBYE
+                QR_GOODBYE,
+                QR_INSTRUCTIONS
             ]
         )
 
@@ -130,7 +133,8 @@ def main_play(req):
             QR_GIVE_UP,
             QR_PROGRESS,
             QR_SUGGESTION,
-            QR_GOODBYE
+            QR_GOODBYE,
+            QR_INSTRUCTIONS
         ]
     )
     user_data["emojis"] = proverb["emojis"]
@@ -155,7 +159,8 @@ def check_proverb(req):
                                     QR_PLAY,
                                     QR_PROGRESS,
                                     QR_SUGGESTION,
-                                    QR_GOODBYE
+                                    QR_GOODBYE,
+                                    QR_INSTRUCTIONS
                                 ])
 
     intent_name = req["queryResult"]["intent"]["displayName"]
@@ -171,9 +176,8 @@ def check_proverb(req):
         user_data["emojis"] = ""
         save_user_data(req, user_data)
 
-        resp = add_text(resp, get_random_string(CORRECT))
         return add_quick_replies(resp,
-                                "E agora?",
+                                get_random_string(CORRECT),
                                 [
                                     QR_PLAY_AGAIN,
                                     QR_PROGRESS,
@@ -190,7 +194,8 @@ def check_proverb(req):
                                     QR_GIVE_UP,
                                     QR_PROGRESS,
                                     QR_SUGGESTION,
-                                    QR_GOODBYE
+                                    QR_GOODBYE,
+                                    QR_INSTRUCTIONS
                                 ])
 
 def test(req: dict):
