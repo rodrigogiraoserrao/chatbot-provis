@@ -28,7 +28,9 @@ CORRECT = [
 ]
 
 GIVE_UP = [
-    "É uma pena desistires..."
+    "É uma pena desistires...",
+    "Evita desistir ao máximo!",
+    "Se for preciso, até podes pedir ajuda a amigos..."
 ]
 
 def main_give_up(req):
