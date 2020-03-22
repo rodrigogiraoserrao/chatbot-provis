@@ -138,8 +138,28 @@ def main_hint(req):
 
 def main_progress(req):
     """Called when the user asks for its progress."""
-    # (TODO)
-    return new_response()
+    
+    user_data = load_user_data(req)
+    to_be_found = [id for id in proverbs.keys() if id not in user_data["found"]]
+    nfound = len(proverbs.keys()) - len(to_be_found)
+
+    if to_be_found == 0:
+        msg = f"Já acertaste todos ({nfound}) os provérbios!"
+    else:
+        # Check if we should use an 's' for the plural
+        s = "s" if nfound != 1 else ""
+        msg = f"Já acertaste {nfound} provérbio{s} e faltam-te {to_be_found}"
+
+    return add_quick_replies(
+        new_response(),
+        msg,
+        [
+            QR_PLAY,
+            QR_SUGGESTION,
+            QR_GOODBYE,
+            QR_INSTRUCTIONS
+        ]
+    )
 
 def main_make_suggestion(req):
     """Called when the user wants to make a new suggestion."""
