@@ -75,18 +75,45 @@ def main_play(req):
 
     if finding_id:
         emojis = user_data["emojis"]
-        return add_text(resp, emojis + "\nSe estiver a ficar difícil podes desistir ou pedir uma pista!")
+        resp = add_text(resp, emojis)
+        return add_quick_replies(
+            resp,
+            "Se estiver a ficar difícil podes desistir ou pedir uma pista!",
+            [
+                QR_HINT,
+                QR_GIVE_UP,
+                QR_PROGRESS,
+                QR_SUGGESTION,
+                QR_GOODBYE
+            ]
+        )
 
     existing_ids = {*proverbs.keys()}
     to_be_found = list(existing_ids - found)
 
     if not to_be_found:
-        return add_text(resp, "Já descobriste todos os provérbios!")
+        return add_quick_replies(
+            resp,
+            "Já descobriste todos os provérbios!",
+            [
+                QR_SUGGESTION,
+                QR_GOODBYE
+            ]
+        )
 
     proverb_id = random.choice(to_be_found)
     proverb = proverbs[proverb_id]
 
-    resp = add_text(resp, proverb["emojis"])
+    resp = add_quick_replies(
+        resp,
+        proverb["emojis"],
+        [
+            QR_GIVE_UP,
+            QR_PROGRESS,
+            QR_SUGGESTION,
+            QR_GOODBYE
+        ]
+    )
     user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
 
