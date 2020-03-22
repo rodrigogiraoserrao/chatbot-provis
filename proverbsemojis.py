@@ -15,6 +15,7 @@ QR_HINT = "Pista 🔎"
 QR_PROGRESS = "Progresso 🥉🥈🥇"
 QR_SUGGESTION = "Sugerir provérbio 👨‍🎓"
 QR_GOODBYE = "Adeus! 👋"
+QR_INSTRUCTIONS = "Instruções 📄"
 
 # Replies for when the user gets the correct proverb.
 CORRECT = [
