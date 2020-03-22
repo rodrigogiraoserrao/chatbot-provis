@@ -75,7 +75,7 @@ def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
     
     resp = new_response()
-    user_data = load_user_data(resp)
+    user_data = load_user_data(req)
     if finding_id := user_data["finding_id"]:
         hint = proverbs[finding_id]["hint"]
         if not hint:
