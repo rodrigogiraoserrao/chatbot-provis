@@ -197,6 +197,7 @@ def main_play(req):
     )
     user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
+    user_data["hint_given"] = False
 
     save_user_data(req, user_data)
 
@@ -232,6 +233,7 @@ def check_proverb(req):
         user_data["found"] = found
         user_data["finding_id"] = None
         user_data["emojis"] = ""
+        user_data["hint_given"] = False
         save_user_data(req, user_data)
 
         return add_quick_replies(resp,
