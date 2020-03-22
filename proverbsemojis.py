@@ -37,7 +37,16 @@ def main_give_up(req):
     user_data = load_user_data(req)
     # If the user isn't trying to guess any proverb, the user can't give up
     if not user_data["finding_id"]:
-        return add_text(resp, "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?")
+        return add_quick_replies(
+            resp,
+            "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?",
+            [
+                QR_PLAY,
+                QR_PROGRESS,
+                QR_SUGGESTION,
+                QR_GOODBYE
+            ]    
+        )
     # If the user has found all other proverbs, don't let the user give up
     if len(user_data["found"]) == len(proverbs) - 1:
         return add_text(resp, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
@@ -48,7 +57,16 @@ def main_give_up(req):
     save_user_data(req, user_data)
 
     reply = get_random_string(GIVE_UP)
-    return add_text(resp, reply)
+    return add_quick_replies(
+        resp,
+        reply,
+        [
+            QR_PLAY_AGAIN,
+            QR_PROGRESS,
+            QR_SUGGESTION,
+            QR_GOODBYE
+        ]    
+    )
 
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
