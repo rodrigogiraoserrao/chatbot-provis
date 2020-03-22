@@ -148,7 +148,7 @@ def main_progress(req):
     else:
         # Check if we should use an 's' for the plural
         s = "s" if nfound != 1 else ""
-        msg = f"Já acertaste {nfound} provérbio{s} e faltam-te {to_be_found}"
+        msg = f"Já acertaste {nfound} provérbio{s} e faltam-te {len(to_be_found)}"
 
     return add_quick_replies(
         new_response(),
