@@ -49,5 +49,10 @@ proverbs = {
         "emojis": "\u23f3 \U0001f6b6 \U0001f47a \U0001f46c", # ['(HOURGLASS WITH FLOWING SAND)', '(PEDESTRIAN)', '(JAPANESE GOBLIN)', '(TWO MEN HOLDING HANDS)']
         "intent": "proverb_better_alone_than_in_bad_company",
         "hint": "eu cá não gosto muito de andar sozinho..."
+    },
+    12: {
+        "emojis": "\U0001f46b \U0001f46c \U0001f46d \U0001f4aa", # (MAN AND WOMAN HOLDING HANDS) (TWO MEN HOLDING HANDS) (TWO WOMEN HOLDING HANDS) (FLEXED BICEPS)
+        "intent": "proverb_united_we_are_stronger",
+        "hint": "estamos unidos!"
     }
 }
