@@ -60,4 +60,14 @@ proverbs = {
         "intent": "proverb_curiosity_killed_the_cat",
         "hint": "consideras-te curioso?"
     },
+    15: {
+        "emojis": "\U0001f60d \U0001f479 \U0001f471 \U0001f440 z", # (SMILING FACE WITH HEART-SHAPED EYES) (JAPANESE OGRE) (PERSON WITH BLOND HAIR) (EYES)
+        "intent": "proverb_ugly_loved_looks_pretty",
+        "hint": "o amor muda a perspetiva de tudo!"
+    },
+    16: {
+        "emojis": "\U0001f440 \U0001f648 \u2764 \U0001f4ad", # (EYES) (SEE-NO-EVIL MONKEY) (HEAVY BLACK HEART) (THOUGHT BALLOON)
+        "intent": "proverb_far_from_sight_far_from_heart",
+        "hint": "se está longe da vista..."
+    }
 }
