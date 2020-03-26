@@ -10,8 +10,8 @@ from utils import load_user_data, save_user_data, get_random_string, \
 # Quick replies
 QR_PLAY = "Jogar 🎮"
 QR_PLAY_AGAIN = "Jogar outro 🎮"
-QR_GIVE_UP = "Desistir 😢"
 QR_HINT = "Pista 🔎"
+QR_GIVE_UP = "Desistir 😢"
 QR_PROGRESS = "Progresso 🥉🥈🥇"
 QR_SUGGESTION = "Sugerir provérbio 👨‍🎓"
 QR_GOODBYE = "Adeus! 👋"
