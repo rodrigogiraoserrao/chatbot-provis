@@ -54,5 +54,10 @@ proverbs = {
         "emojis": "\U0001f46b \U0001f46c \U0001f46d \U0001f4aa", # (MAN AND WOMAN HOLDING HANDS) (TWO MEN HOLDING HANDS) (TWO WOMEN HOLDING HANDS) (FLEXED BICEPS)
         "intent": "proverb_united_we_are_stronger",
         "hint": "estamos unidos!"
-    }
+    },
+    14: {
+        "emojis": "\U0001f4e6 \u2753 \U0001f52b \U0001f431", # (PACKAGE) (BLACK QUESTION MARK ORNAMENT) (PISTOL) (CAT FACE)
+        "intent": "proverb_curiosity_killed_the_cat",
+        "hint": "consideras-te curioso?"
+    },
 }
