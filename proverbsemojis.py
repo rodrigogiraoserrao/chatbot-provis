@@ -140,6 +140,7 @@ def main_progress(req):
     """Called when the user asks for its progress."""
     
     user_data = load_user_data(req)
+    # List all the IDs that haven't been found yet
     to_be_found = [id for id in proverbs.keys() if id not in user_data["found"]]
     nfound = len(proverbs.keys()) - len(to_be_found)
 
