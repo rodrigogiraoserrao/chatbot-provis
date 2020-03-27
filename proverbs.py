@@ -26,27 +26,27 @@ proverbs = {
         "hint": "mais vale...?"
     },
     6: {
-        "emojis": "\U0001f607 \U0001f3e0 \U0001f44e \U0001f64f", # ['(SMILING FACE WITH HALO)', '(HOUSE BUILDING)', '(THUMBS DOWN SIGN)', '(PERSON WITH FOLDED HANDS)']
+        "emojis": "\U0001f607 \U0001f3e0 \U0001f44e \U0001f64f", # (SMILING FACE WITH HALO), (HOUSE BUILDING), (THUMBS DOWN SIGN), (PERSON WITH FOLDED HANDS)
         "intent": "proverb_house_saints_dont_make_miracles",
         "hint": "acreditas em milagres?"
     },
     7: {
-        "emojis": "\u23f0 \U0001f60b \U0001f363 \U0001f525 \U0001f444", # ['(ALARM CLOCK)', '(FACE SAVOURING DELICIOUS FOOD)', '(SUSHI)', '(FIRE)', '(MOUTH)']
+        "emojis": "\u23f0 \U0001f60b \U0001f363 \U0001f525 \U0001f444", # (ALARM CLOCK), (FACE SAVOURING DELICIOUS FOOD), (SUSHI), (FIRE), (MOUTH)
         "intent": "proverb_hurry_eat_raw_or_burn_mouth",
         "hint": "eu gosto de viver calmamente..."
     },
     8: {
-        "emojis": "\U0001f343 \U0001f4a8 \u2614 \u26a1", # ['(LEAF FLUTTERING IN WIND)', '(DASH SYMBOL)', '(UMBRELLA WITH RAIN DROPS)', '(HIGH VOLTAGE SIGN)']
+        "emojis": "\U0001f343 \U0001f4a8 \u2614 \u26a1", # (LEAF FLUTTERING IN WIND), (DASH SYMBOL), (UMBRELLA WITH RAIN DROPS), (HIGH VOLTAGE SIGN)
         "intent": "proverb_sow_winds_harvest_tempests",
         "hint": "a prática da agricultura é incrível!"
     },
     9: {
-        "emojis": "\U0001f412 \U0001f334 \U0001f412 \U0001f334", # ['(MONKEY)', '(PALM TREE)', '(MONKEY)', '(PALM TREE)']
+        "emojis": "\U0001f412 \U0001f334 \U0001f412 \U0001f334", # (MONKEY), (PALM TREE), (MONKEY), (PALM TREE)
         "intent": "proverb_each_monkey_to_its_tree",
         "hint": "sabes o que são galhos?"
     },
     10: {
-        "emojis": "\u23f3 \U0001f6b6 \U0001f47a \U0001f46c", # ['(HOURGLASS WITH FLOWING SAND)', '(PEDESTRIAN)', '(JAPANESE GOBLIN)', '(TWO MEN HOLDING HANDS)']
+        "emojis": "\u23f3 \U0001f6b6 \U0001f47a \U0001f46c", # (HOURGLASS WITH FLOWING SAND), (PEDESTRIAN), (JAPANESE GOBLIN), (TWO MEN HOLDING HANDS)
         "intent": "proverb_better_alone_than_in_bad_company",
         "hint": "eu cá não gosto muito de andar sozinho..."
     },
