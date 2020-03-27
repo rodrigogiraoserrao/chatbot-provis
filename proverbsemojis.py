@@ -308,7 +308,5 @@ def webhook():
         req_json = func(req_json)
     elif intent_name.startswith("proverb_"):
         req_json = check_proverb(req_json)
-    elif intent_name == "teste":
-        req_json = test(req_json)
 
     return flask.jsonify(req_json)
