@@ -61,7 +61,7 @@ proverbs = {
         "hint": "consideras-te curioso?"
     },
     15: {
-        "emojis": "\U0001f60d \U0001f479 \U0001f471 \U0001f440 z", # (SMILING FACE WITH HEART-SHAPED EYES) (JAPANESE OGRE) (PERSON WITH BLOND HAIR) (EYES)
+        "emojis": "\U0001f60d \U0001f479 \U0001f471 \U0001f440", # (SMILING FACE WITH HEART-SHAPED EYES) (JAPANESE OGRE) (PERSON WITH BLOND HAIR) (EYES)
         "intent": "proverb_ugly_loved_looks_pretty",
         "hint": "o amor muda a perspetiva de tudo!"
     },
@@ -76,7 +76,7 @@ proverbs = {
         "hint": "leite no chão!"
     },
     57: {
-        "emojis": "\U0001f436 \U0001f4e2 \U0001f64a \U0001f9b7", # (DOG FACE) (PUBLIC ADDRESS LOUDSPEAKER) (SPEAK-NO-EVIL MONKEY) (TOOTH)
+        "emojis": "\U0001f415 \U0001f4e2 \U0001f64a \U0001f9b7", # (DOG) (PUBLIC ADDRESS LOUDSPEAKER) (SPEAK-NO-EVIL MONKEY) (TOOTH)
         "intent": "proverb_barking_dog_does_not_bite",
         "hint": "o meu irmão mordeu-me uma vez quando era pequeno! Doeu..."
     },
