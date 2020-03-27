@@ -69,5 +69,20 @@ proverbs = {
         "emojis": "\U0001f440 \U0001f648 \u2764 \U0001f4ad", # (EYES) (SEE-NO-EVIL MONKEY) (HEAVY BLACK HEART) (THOUGHT BALLOON)
         "intent": "proverb_far_from_sight_far_from_heart",
         "hint": "se está longe da vista..."
+    },
+    56: {
+        "emojis": "\u274c \U0001f62d \U0001f95b \u2604\ufe0f", # (CROSS MARK) (LOUDLY CRYING FACE) (GLASS OF MILK) (COMET) (VARIATION SELECTOR-16)
+        "intent": "proverb_dont_cry_spilled_milk",
+        "hint": "leite no chão!"
+    },
+    57: {
+        "emojis": "\U0001f436 \U0001f4e2 \U0001f64a \U0001f9b7", # (DOG FACE) (PUBLIC ADDRESS LOUDSPEAKER) (SPEAK-NO-EVIL MONKEY) (TOOTH)
+        "intent": "proverb_barking_dog_does_not_bite",
+        "hint": "o meu irmão mordeu-me uma vez quando era pequeno! Doeu..."
+    },
+    58: {
+        "emojis": "\U0001f63a \U0001f37d\ufe0f \U0001f445", # (SMILING CAT FACE WITH OPEN MOUTH) (FORK AND KNIFE WITH PLATE) (VARIATION SELECTOR-16) (TONGUE)
+        "intent": "proverb_cat_ate_your_tongue",
+        "hint": None
     }
 }
