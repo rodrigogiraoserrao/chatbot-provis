@@ -281,10 +281,6 @@ def check_proverb(req):
                                     QR_INSTRUCTIONS
                                 ])
 
-def test(req: dict):
-    pre = new_response()
-    return add_quick_replies(pre, "teste", ["uma", "duas", "três"])
-
 logger = create_logger("proverbs", "proverbios.log")
 def webhook():
     """Entry point from the main flask server."""
