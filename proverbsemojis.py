@@ -56,7 +56,9 @@ def main_give_up(req):
         return add_text(resp, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
 
     # Otherwise, stop signaling this proverb as the one being guessed
-    user_data["seen"].append(user_data["finding_id"])
+    seen = user_data.get("seen", [])        # Retrieve the `seen` list safely
+    seen.append(user_data["finding_id"])    # as previous users may not have it
+    user_data["seen"] = seen
     user_data["finding_id"] = 0
     user_data["emojis"] = ""
     save_user_data(req, user_data)
