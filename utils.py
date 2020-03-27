@@ -7,6 +7,7 @@ DATAFILE = "data/data.json"
 # The template user data:
 TEMPLATE_USER_DATA = {
     "found": [],
+    "seen": [],
     "finding_id": 0,
     "emojis": "",
     "hint_given": False,
