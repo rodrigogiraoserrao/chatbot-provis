@@ -17,13 +17,7 @@ TEMPLATE_USER_DATA = {
 def new_response() -> dict:
     """Creates the template for a new webhook response."""
     return {
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": []
-                }
-            }
-        ]
+        "fulfillmentMessages": []
     }
 
 def add_quick_replies(resp: dict, title: str, qreplies: List[str]) -> dict:
@@ -46,6 +40,17 @@ def add_text(resp: dict, text: str) -> dict:
     for dic in resp["fulfillmentMessages"]:
         if "text" in dic:
             dic["text"]["text"].append(text)
+            break
+    # This only executes if we didn't find the "text" dictionary
+    else:
+        resp["fulfillmentMessages"].append({
+            "text": {
+                "text": [
+                    text
+                ]
+            }
+        })
+
     return resp
 
 def create_logger(name: str, filename: str) -> logging.Logger:

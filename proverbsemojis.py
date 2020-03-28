@@ -143,6 +143,7 @@ def main_progress(req):
     """Called when the user asks for its progress."""
     
     user_data = load_user_data(req)
+    # List all the IDs that haven't been found yet
     to_be_found = [id for id in proverbs.keys() if id not in user_data["found"]]
     nfound = len(proverbs.keys()) - len(to_be_found)
 
@@ -298,10 +299,6 @@ def check_proverb(req):
                                     QR_INSTRUCTIONS
                                 ])
 
-def test(req: dict):
-    pre = new_response()
-    return add_quick_replies(pre, "teste", ["uma", "duas", "três"])
-
 logger = create_logger("proverbs", "proverbios.log")
 def webhook():
     """Entry point from the main flask server."""
@@ -329,7 +326,5 @@ def webhook():
         req_json = func(req_json)
     elif intent_name.startswith("proverb_"):
         req_json = check_proverb(req_json)
-    elif intent_name == "teste":
-        req_json = test(req_json)
 
     return flask.jsonify(req_json)
