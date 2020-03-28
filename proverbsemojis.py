@@ -177,8 +177,8 @@ def main_play(req):
 
     resp = new_response()
     user_data = load_user_data(req)
-    found = set(user_data.setdefault("found", []))
-    seen = set(user_data.setdefault("seen", []))
+    found_set = set(user_data.setdefault("found", []))
+    seen_set = set(user_data.setdefault("seen", []))
     finding_id = user_data.setdefault("finding_id", 0)
 
     if finding_id:
@@ -199,9 +199,9 @@ def main_play(req):
 
     existing_ids = {*proverbs.keys()}
     # What proverbs hasn't the player guessed or seen?
-    to_be_found = list(existing_ids - found - seen)
+    to_be_found = list(existing_ids - found_set - seen_set)
 
-    if not to_be_found and not seen:
+    if not to_be_found and not seen_set:
         return add_quick_replies(
             resp,
             "Já descobriste todos os provérbios!",
@@ -211,15 +211,15 @@ def main_play(req):
             ]
         )
     # If nothing is to be found reuse the proverbs that have been seen.
-    elif not to_be_found and seen:
+    elif not to_be_found and seen_set:
         # Plural formatting is annoying...
-        m = "m" if len(seen) > 1 else ""
+        m = "m" if len(seen_set) > 1 else ""
         resp = add_text(resp,
             "Já te mostrei todos os provérbios que sei... " + \
             "Vou começar a repeti-los, ok?\n" + \
-            f"Falta{m}-te {len(seen)}! \U0001F4AA")
+            f"Falta{m}-te {len(seen_set)}! \U0001F4AA")
         # Use the previously seen as the new "to_be_found" and reset the seen.
-        to_be_found = seen
+        to_be_found = seen_set
         user_data["seen"] = []
 
     proverb_id = random.choice(to_be_found)
