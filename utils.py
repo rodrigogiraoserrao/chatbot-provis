@@ -16,13 +16,7 @@ TEMPLATE_USER_DATA = {
 def new_response() -> dict:
     """Creates the template for a new webhook response."""
     return {
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": []
-                }
-            }
-        ]
+        "fulfillmentMessages": []
     }
 
 def add_quick_replies(resp: dict, title: str, qreplies: List[str]) -> dict:
