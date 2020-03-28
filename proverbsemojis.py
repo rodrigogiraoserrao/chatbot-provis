@@ -150,11 +150,13 @@ def main_progress(req):
     if to_be_found == 0:
         msg = f"Já acertaste todos ({nfound}) os provérbios!"
     else:
-        # Check if we should use an 's' for the plural
-        s = "s" if nfound != 1 else ""
-        seen = len(user_data["seen"])
-        msg = f"Já acertaste {nfound} provérbio{s} " + \
-            f"e faltam-te {len(to_be_found)}; desses, já viste {seen}."
+        if nfound == 0:
+            msg = "Ainda não acertaste nenhum provérbio..."
+        else:
+            # Check if we should use an 's' for the plural
+            s = "s" if nfound != 1 else ""
+            msg = f"Já acertaste {nfound} provérbio{s} " + \
+                f"e faltam-te {len(to_be_found)}!"
 
     return add_quick_replies(
         new_response(),
