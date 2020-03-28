@@ -219,7 +219,7 @@ def main_play(req):
             "Vou começar a repeti-los, ok?\n" + \
             f"Falta{m}-te {len(seen_set)}! \U0001F4AA")
         # Use the previously seen as the new "to_be_found" and reset the seen.
-        to_be_found = seen_set
+        to_be_found = list(seen_set)
         user_data["seen"] = []
 
     proverb_id = random.choice(to_be_found)
