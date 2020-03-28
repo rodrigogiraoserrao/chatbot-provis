@@ -56,6 +56,9 @@ def main_give_up(req):
         return add_text(resp, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
 
     # Otherwise, stop signaling this proverb as the one being guessed
+    seen = user_data.get("seen", [])        # Retrieve the `seen` list safely
+    seen.append(user_data["finding_id"])    # as previous users may not have it
+    user_data["seen"] = seen
     user_data["finding_id"] = 0
     user_data["emojis"] = ""
     save_user_data(req, user_data)
@@ -147,9 +150,13 @@ def main_progress(req):
     if to_be_found == 0:
         msg = f"Já acertaste todos ({nfound}) os provérbios!"
     else:
-        # Check if we should use an 's' for the plural
-        s = "s" if nfound != 1 else ""
-        msg = f"Já acertaste {nfound} provérbio{s} e faltam-te {len(to_be_found)}"
+        if nfound == 0:
+            msg = "Ainda não acertaste nenhum provérbio..."
+        else:
+            # Check if we should use an 's' for the plural
+            s = "s" if nfound != 1 else ""
+            msg = f"Já acertaste {nfound} provérbio{s} " + \
+                f"e faltam-te {len(to_be_found)}!"
 
     return add_quick_replies(
         new_response(),
@@ -172,7 +179,8 @@ def main_play(req):
 
     resp = new_response()
     user_data = load_user_data(req)
-    found = set(user_data.setdefault("found", []))
+    found_set = set(user_data.setdefault("found", []))
+    seen_set = set(user_data.setdefault("seen", []))
     finding_id = user_data.setdefault("finding_id", 0)
 
     if finding_id:
@@ -192,9 +200,10 @@ def main_play(req):
         )
 
     existing_ids = {*proverbs.keys()}
-    to_be_found = list(existing_ids - found)
+    # What proverbs hasn't the player guessed or seen?
+    to_be_found = list(existing_ids - found_set - seen_set)
 
-    if not to_be_found:
+    if not to_be_found and not seen_set:
         return add_quick_replies(
             resp,
             "Já descobriste todos os provérbios!",
@@ -203,6 +212,17 @@ def main_play(req):
                 QR_GOODBYE
             ]
         )
+    # If nothing is to be found reuse the proverbs that have been seen.
+    elif not to_be_found and seen_set:
+        # Plural formatting is annoying...
+        m = "m" if len(seen_set) > 1 else ""
+        resp = add_text(resp,
+            "Já te mostrei todos os provérbios que sei... " + \
+            "Vou começar a repeti-los, ok?\n" + \
+            f"Falta{m}-te {len(seen_set)}! \U0001F4AA")
+        # Use the previously seen as the new "to_be_found" and reset the seen.
+        to_be_found = list(seen_set)
+        user_data["seen"] = []
 
     proverb_id = random.choice(to_be_found)
     proverb = proverbs[proverb_id]
