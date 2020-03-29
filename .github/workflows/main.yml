@@ -24,7 +24,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Python Black Check
-      uses: RojerGS/python-black-check@1.0
+      uses: RojerGS/python-black-check@master
       with:
-        line-length: 81
         path: '.'
