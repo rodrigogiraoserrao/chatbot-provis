@@ -8,11 +8,14 @@ DATAFILE = "data/data.json"
 TEMPLATE_USER_DATA = {
     "found": [],
     "seen": [],
+    "buffer_size": 5,
     "finding_id": 0,
     "emojis": "",
     "hint_given": False,
     "hints_given": 0,
 }
+
+BUFFER_SIZE_STEP = 3
 
 
 def new_response() -> dict:

@@ -3,7 +3,7 @@ from flask import request
 import json
 import random
 
-from proverbs import proverbs
+from proverbs import proverbs, difficulty_ratings
 from utils import (
     load_user_data,
     save_user_data,
@@ -12,6 +12,8 @@ from utils import (
     new_response,
     add_quick_replies,
     add_text,
+    TEMPLATE_USER_DATA,
+    BUFFER_SIZE_STEP,
 )
 
 # Quick replies
@@ -173,9 +175,7 @@ def main_play(req):
 
     resp = new_response()
     user_data = load_user_data(req)
-    found_set = set(user_data.setdefault("found", []))
-    seen_set = set(user_data.setdefault("seen", []))
-    finding_id = user_data.setdefault("finding_id", 0)
+    finding_id = user_data.get("finding_id", 0)
 
     if finding_id:
         emojis = user_data["emojis"]
@@ -193,45 +193,58 @@ def main_play(req):
             ],
         )
 
-    existing_ids = {*proverbs.keys()}
-    # What proverbs hasn't the player guessed or seen?
-    to_be_found = list(existing_ids - found_set - seen_set)
+    buff_size = user_data.get("buffer_size", TEMPLATE_USER_DATA["buffer_size"])
+    # Retrieve as many proverbs as the user can see, as defined by the buffer.
+    found = user_data.get("found", [])
+    to_be_found = [id for id in difficulty_ratings if id not in found]
+    rotation = to_be_found[:buff_size]
+    # Then check what is the next unseen proverb that is available
+    seen = user_data.get("seen", [])
+    to_be_seen = [id for id in rotation if id not in seen]
 
-    if not to_be_found and not seen_set:
+    if not to_be_found:
         return add_quick_replies(
             resp,
             "Já descobriste todos os provérbios!",
             [QR_SUGGESTION, QR_GOODBYE],
         )
-    # If nothing is to be found reuse the proverbs that have been seen.
-    elif not to_be_found and seen_set:
-        # Plural formatting is annoying...
-        m = "m" if len(seen_set) > 1 else ""
-        resp = add_text(
-            resp,
-            "Já te mostrei todos os provérbios que sei... "
-            + "Vou começar a repeti-los, ok?\n"
-            + f"Falta{m}-te {len(seen_set)}! \U0001F4AA",
-        )
-        # Use the previously seen as the new "to_be_found" and reset the seen.
-        to_be_found = list(seen_set)
+
+    # Determine if we will start another cycle over some proverbs
+    elif not to_be_seen:
+        # Increase the buffer size only if it is not already too large;
+        # give some extra room in case new proverbs are added to the game later.
+        if buff_size <= len(to_be_found):
+            buff_size += BUFFER_SIZE_STEP
+            user_data["buffer_size"] = buff_size
+        to_be_seen = to_be_found[:buff_size]  # no need to redefine `rotation`
         user_data["seen"] = []
 
-    proverb_id = random.choice(to_be_found)
-    proverb = proverbs[proverb_id]
+        resp = add_text(
+            resp,
+            "Já te mostrei alguns provérbios diferentes, agora vou começar "
+            "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede "
+            "ajuda a alguém que esteja por perto \U0001F60E",
+        )
+        # Tell the player if there are other proverbs the player won't see yet
+        if len(to_be_found) > len(to_be_seen):
+            resp = add_text(
+                resp,
+                "Assim que fizeres mais algum progresso posso começar "
+                "a mostrar outros provérbios ainda mais difíceis!",
+            )
 
-    resp = add_quick_replies(
+    proverb_id = to_be_seen[0]
+    proverb = proverbs[proverb_id]
+    user_data["emojis"] = proverb["emojis"]
+    user_data["finding_id"] = proverb_id
+    user_data["hint_given"] = False
+    save_user_data(req, user_data)
+
+    return add_quick_replies(
         resp,
         proverb["emojis"],
         [QR_GIVE_UP, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
     )
-    user_data["emojis"] = proverb["emojis"]
-    user_data["finding_id"] = proverb_id
-    user_data["hint_given"] = False
-
-    save_user_data(req, user_data)
-
-    return resp
 
 
 def check_proverb(req):

@@ -86,3 +86,47 @@ proverbs = {
         "hint": "o gato estava com fome!",
     },
 }
+
+# Order the proverbs by relative difficulty, from easiest to hardest.
+difficulty_ratings = [
+    58,
+    14,
+    5,
+    1,
+    2,
+    3,
+    9,
+    4,
+    12,
+    56,
+    57,
+    8,
+    15,
+    16,
+    10,
+    7,
+    6,
+]
+
+
+def verify_rating() -> bool:
+    """Check if the proverb dictionary and the difficulty rating are consistent."""
+
+    proverb_ids_set = set(proverbs.keys())
+    difficulty_ids_set = set(difficulty_ratings)
+
+    proverbs_not_ranked = proverb_ids_set - difficulty_ids_set
+    if proverbs_not_ranked:
+        print(f"There are proverbs that are not ranked: {proverbs_not_ranked}")
+        return False
+
+    ranked_not_listed = difficulty_ids_set - proverb_ids_set
+    if ranked_not_listed:
+        print(f"There are ranked proverbs not listed: {ranked_not_listed}")
+        return False
+
+    return True
+
+
+# Ensure the difficulty rating includes all proverbs and only existing proverbs.
+assert verify_rating(), "Rating is wrong!"
