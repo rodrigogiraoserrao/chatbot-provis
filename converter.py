@@ -13,6 +13,7 @@ CONVERSION_TEMPLATE = """{prov_id}: {{
 
 escape_sequence_re = re.compile(r".*(\\[uU][0-9a-fA-F]+)")
 
+
 def escape(char):
     """Takes a character and returns its \\U escaped string and the char name."""
 
@@ -55,12 +56,12 @@ if __name__ == "__main__":
 
     file_name, file_ext = os.path.splitext(filename)
     file_name = file_name + "_conv" + file_ext
-    
+
     with open(file_name, "w", encoding="utf8") as f:
         for line, (conv, names) in enumerate(converted_lines):
             if conv:
-                f.write(CONVERSION_TEMPLATE.format(
-                    prov_id = line + 1,
-                    conv = conv,
-                    names = " ".join(names)
-                ))
+                f.write(
+                    CONVERSION_TEMPLATE.format(
+                        prov_id=line + 1, conv=conv, names=" ".join(names)
+                    )
+                )

@@ -4,8 +4,15 @@ import json
 import random
 
 from proverbs import proverbs
-from utils import load_user_data, save_user_data, get_random_string, \
-                    create_logger, new_response, add_quick_replies, add_text
+from utils import (
+    load_user_data,
+    save_user_data,
+    get_random_string,
+    create_logger,
+    new_response,
+    add_quick_replies,
+    add_text,
+)
 
 # Quick replies
 QR_PLAY = "Jogar 🎮"
@@ -24,14 +31,15 @@ CORRECT = [
     "Correto!",
     "Acertaste!",
     "É isso mesmo!",
-    "Mesmo na mouche!"
+    "Mesmo na mouche!",
 ]
 
 GIVE_UP = [
     "É uma pena desistires...",
     "Evita desistir ao máximo!",
-    "Se for preciso, até podes pedir ajuda a amigos..."
+    "Se for preciso, até podes pedir ajuda a amigos...",
 ]
+
 
 def main_give_up(req):
     """Called when the user wants to give up on a given proverb."""
@@ -42,22 +50,19 @@ def main_give_up(req):
     if not user_data["finding_id"]:
         return add_quick_replies(
             resp,
-            "Se não estás a tentar adivinhar nenhum provérbio, queres _\"desistir\"_ de quê?",
-            [
-                QR_PLAY,
-                QR_PROGRESS,
-                QR_SUGGESTION,
-                QR_GOODBYE,
-                QR_INSTRUCTIONS
-            ]    
+            'Se não estás a tentar adivinhar nenhum provérbio, queres _"desistir"_ de quê?',
+            [QR_PLAY, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
         )
     # If the user has found all other proverbs, don't let the user give up
     if len(user_data["found"]) == len(proverbs) - 1:
-        return add_text(resp, "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA")
+        return add_text(
+            resp,
+            "Só te falta mais este provérbio! Não podes desistir agora \U0001F4AA",
+        )
 
     # Otherwise, stop signaling this proverb as the one being guessed
-    seen = user_data.get("seen", [])        # Retrieve the `seen` list safely
-    seen.append(user_data["finding_id"])    # as previous users may not have it
+    seen = user_data.get("seen", [])  # Retrieve the `seen` list safely
+    seen.append(user_data["finding_id"])  # as previous users may not have it
     user_data["seen"] = seen
     user_data["finding_id"] = 0
     user_data["emojis"] = ""
@@ -67,18 +72,13 @@ def main_give_up(req):
     return add_quick_replies(
         resp,
         reply,
-        [
-            QR_PLAY_AGAIN,
-            QR_PROGRESS,
-            QR_SUGGESTION,
-            QR_GOODBYE,
-            QR_INSTRUCTIONS
-        ]    
+        [QR_PLAY_AGAIN, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
     )
+
 
 def main_hint(req):
     """Called when the user asks for a hint on a given proverb."""
-    
+
     resp = new_response()
     user_data = load_user_data(req)
     if finding_id := user_data["finding_id"]:
@@ -92,8 +92,8 @@ def main_hint(req):
                     QR_PROGRESS,
                     QR_SUGGESTION,
                     QR_GOODBYE,
-                    QR_INSTRUCTIONS
-                ]
+                    QR_INSTRUCTIONS,
+                ],
             )
 
         if user_data["hint_given"]:
@@ -106,8 +106,8 @@ def main_hint(req):
                     QR_PROGRESS,
                     QR_SUGGESTION,
                     QR_GOODBYE,
-                    QR_INSTRUCTIONS
-                ]
+                    QR_INSTRUCTIONS,
+                ],
             )
         else:
             user_data["hint_given"] = True
@@ -121,8 +121,8 @@ def main_hint(req):
                     QR_PROGRESS,
                     QR_SUGGESTION,
                     QR_GOODBYE,
-                    QR_INSTRUCTIONS
-                ]
+                    QR_INSTRUCTIONS,
+                ],
             )
 
     else:
@@ -130,18 +130,13 @@ def main_hint(req):
         return add_quick_replies(
             resp,
             "Se não estás a adivinhar nenhum provérbio, queres uma pista de quê?",
-            [
-                QR_INSTRUCTIONS,
-                QR_PLAY,
-                QR_PROGRESS,
-                QR_SUGGESTION,
-                QR_GOODBYE
-            ]
+            [QR_INSTRUCTIONS, QR_PLAY, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE],
         )
+
 
 def main_progress(req):
     """Called when the user asks for its progress."""
-    
+
     user_data = load_user_data(req)
     # List all the IDs that haven't been found yet
     to_be_found = [id for id in proverbs.keys() if id not in user_data["found"]]
@@ -155,24 +150,23 @@ def main_progress(req):
         else:
             # Check if we should use an 's' for the plural
             s = "s" if nfound != 1 else ""
-            msg = f"Já acertaste {nfound} provérbio{s} " + \
-                f"e faltam-te {len(to_be_found)}!"
+            msg = (
+                f"Já acertaste {nfound} provérbio{s} "
+                + f"e faltam-te {len(to_be_found)}!"
+            )
 
     return add_quick_replies(
         new_response(),
         msg,
-        [
-            QR_PLAY,
-            QR_SUGGESTION,
-            QR_GOODBYE,
-            QR_INSTRUCTIONS
-        ]
+        [QR_PLAY, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
     )
+
 
 def main_make_suggestion(req):
     """Called when the user wants to make a new suggestion."""
     # (TODO)
     return new_response()
+
 
 def main_play(req):
     """Called when the user wants to play."""
@@ -195,8 +189,8 @@ def main_play(req):
                 QR_PROGRESS,
                 QR_SUGGESTION,
                 QR_GOODBYE,
-                QR_INSTRUCTIONS
-            ]
+                QR_INSTRUCTIONS,
+            ],
         )
 
     existing_ids = {*proverbs.keys()}
@@ -207,19 +201,18 @@ def main_play(req):
         return add_quick_replies(
             resp,
             "Já descobriste todos os provérbios!",
-            [
-                QR_SUGGESTION,
-                QR_GOODBYE
-            ]
+            [QR_SUGGESTION, QR_GOODBYE],
         )
     # If nothing is to be found reuse the proverbs that have been seen.
     elif not to_be_found and seen_set:
         # Plural formatting is annoying...
         m = "m" if len(seen_set) > 1 else ""
-        resp = add_text(resp,
-            "Já te mostrei todos os provérbios que sei... " + \
-            "Vou começar a repeti-los, ok?\n" + \
-            f"Falta{m}-te {len(seen_set)}! \U0001F4AA")
+        resp = add_text(
+            resp,
+            "Já te mostrei todos os provérbios que sei... "
+            + "Vou começar a repeti-los, ok?\n"
+            + f"Falta{m}-te {len(seen_set)}! \U0001F4AA",
+        )
         # Use the previously seen as the new "to_be_found" and reset the seen.
         to_be_found = list(seen_set)
         user_data["seen"] = []
@@ -230,13 +223,7 @@ def main_play(req):
     resp = add_quick_replies(
         resp,
         proverb["emojis"],
-        [
-            QR_GIVE_UP,
-            QR_PROGRESS,
-            QR_SUGGESTION,
-            QR_GOODBYE,
-            QR_INSTRUCTIONS
-        ]
+        [QR_GIVE_UP, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
     )
     user_data["emojis"] = proverb["emojis"]
     user_data["finding_id"] = proverb_id
@@ -246,6 +233,7 @@ def main_play(req):
 
     return resp
 
+
 def check_proverb(req):
     """Check if the proverb the user said is correct or not."""
 
@@ -254,16 +242,14 @@ def check_proverb(req):
     finding_id = user_data.setdefault("finding_id", 0)
 
     if not finding_id:
-        resp = add_text(resp, "Para tentares adivinhar um provérbio, escreve 'jogar'!")
-        return add_quick_replies(resp,
-                                "Ou escolhe qualquer uma das outras opções...",
-                                [
-                                    QR_PLAY,
-                                    QR_PROGRESS,
-                                    QR_SUGGESTION,
-                                    QR_GOODBYE,
-                                    QR_INSTRUCTIONS
-                                ])
+        resp = add_text(
+            resp, "Para tentares adivinhar um provérbio, escreve 'jogar'!"
+        )
+        return add_quick_replies(
+            resp,
+            "Ou escolhe qualquer uma das outras opções...",
+            [QR_PLAY, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE, QR_INSTRUCTIONS],
+        )
 
     intent_name = req["queryResult"]["intent"]["displayName"]
 
@@ -279,29 +265,31 @@ def check_proverb(req):
         user_data["hint_given"] = False
         save_user_data(req, user_data)
 
-        return add_quick_replies(resp,
-                                get_random_string(CORRECT),
-                                [
-                                    QR_PLAY_AGAIN,
-                                    QR_PROGRESS,
-                                    QR_SUGGESTION,
-                                    QR_GOODBYE
-                                ])
+        return add_quick_replies(
+            resp,
+            get_random_string(CORRECT),
+            [QR_PLAY_AGAIN, QR_PROGRESS, QR_SUGGESTION, QR_GOODBYE],
+        )
 
     else:
         resp = add_text(resp, "Woops, erraste...")
-        return add_quick_replies(resp,
-                                "Tenta outra vez!",
-                                [
-                                    QR_HINT,
-                                    QR_GIVE_UP,
-                                    QR_PROGRESS,
-                                    QR_SUGGESTION,
-                                    QR_GOODBYE,
-                                    QR_INSTRUCTIONS
-                                ])
+        return add_quick_replies(
+            resp,
+            "Tenta outra vez!",
+            [
+                QR_HINT,
+                QR_GIVE_UP,
+                QR_PROGRESS,
+                QR_SUGGESTION,
+                QR_GOODBYE,
+                QR_INSTRUCTIONS,
+            ],
+        )
+
 
 logger = create_logger("proverbs", "proverbios.log")
+
+
 def webhook():
     """Entry point from the main flask server."""
 
@@ -320,7 +308,7 @@ def webhook():
         "main_give_up": main_give_up,
         "main_hint": main_hint,
         "main_progress": main_progress,
-        "main_make_suggestion": main_make_suggestion
+        "main_make_suggestion": main_make_suggestion,
     }
 
     if intent_name in intent_mapping:
