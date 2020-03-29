@@ -15,6 +15,8 @@ TEMPLATE_USER_DATA = {
     "hints_given": 0,
 }
 
+BUFFER_SIZE_STEP = 3
+
 
 def new_response() -> dict:
     """Creates the template for a new webhook response."""
