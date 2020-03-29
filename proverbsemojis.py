@@ -218,7 +218,13 @@ def main_play(req):
             user_data["buffer_size"] = buff_size
         to_be_seen = to_be_found[:buff_size]
         user_data["seen"] = []
-        # (TODO) tell the player we are going to repeat some proverbs now
+        
+        resp = resp.add_text(
+            resp,
+            "Já te mostrei alguns provérbios diferentes, agora vou começar " + \
+            "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede " + \
+            "ajuda a alguém que esteja por perto \U0001F60E"
+        )
 
     proverb_id = to_be_seen[0]
     proverb = proverbs[proverb_id]
