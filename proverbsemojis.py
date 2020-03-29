@@ -219,7 +219,7 @@ def main_play(req):
         to_be_seen = to_be_found[:buff_size]
         user_data["seen"] = []
         
-        resp = resp.add_text(
+        resp = add_text(
             resp,
             "Já te mostrei alguns provérbios diferentes, agora vou começar " + \
             "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede " + \
