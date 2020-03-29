@@ -86,3 +86,24 @@ proverbs = {
         "hint": None,
     },
 }
+
+# Order the proverbs by relative difficulty, from easiest to hardest.
+difficulty = [
+    58,
+    14,
+    5,
+    1,
+    2,
+    3,
+    9,
+    4,
+    12,
+    56,
+    57,
+    8,
+    15,
+    16,
+    10,
+    7,
+    6,
+]
