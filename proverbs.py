@@ -107,3 +107,26 @@ difficulty = [
     7,
     6,
 ]
+
+
+def verify_rating() -> bool:
+    """Check if the proverb dictionary and the difficulty rating are consistent."""
+
+    proverb_ids_set = set(proverbs.keys())
+    difficulty_ids_set = set(difficulty)
+
+    proverbs_not_ranked = proverb_ids_set - difficulty_ids_set
+    if proverbs_not_ranked:
+        print(f"There are proverbs that are not ranked: {proverbs_not_ranked}")
+        return False
+
+    ranked_not_listed = difficulty_ids_set - proverb_ids_set
+    if ranked_not_listed:
+        print(f"There are ranked proverbs not listed: {ranked_not_listed}")
+        return False
+
+    return True
+
+
+# Ensure the difficulty rating includes all proverbs and only existing proverbs.
+assert verify_rating(), "Rating is wrong!"
