@@ -97,12 +97,13 @@ def load_user_data(req: dict) -> dict:
     with open(DATAFILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    try:
-        user_id = req["originalDetectIntentRequest"]["payload"]["data"][
-            "sender"
-        ]["id"]
-    except KeyError:
-        user_id = "__no_id_found__"
+    user_id = (
+        req.get("originalDetectIntentRequest", {})
+        .get("payload", {})
+        .get("data", {})
+        .get("sender", {})
+        .get("id", "__no_id_found__")
+    )
 
     user_data = data.get(user_id, {})
     # Initialize all the needed empty fields
