@@ -83,6 +83,6 @@ proverbs = {
     58: {
         "emojis": "\U0001f63a \U0001f37d\ufe0f \U0001f445",  # (SMILING CAT FACE WITH OPEN MOUTH) (FORK AND KNIFE WITH PLATE) (VARIATION SELECTOR-16) (TONGUE)
         "intent": "proverb_cat_ate_your_tongue",
-        "hint": None,
+        "hint": "o gato estava com fome!",
     },
 }
