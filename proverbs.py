@@ -88,7 +88,7 @@ proverbs = {
 }
 
 # Order the proverbs by relative difficulty, from easiest to hardest.
-difficulty = [
+difficulty_ratings = [
     58,
     14,
     5,
