@@ -113,7 +113,7 @@ def verify_rating() -> bool:
     """Check if the proverb dictionary and the difficulty rating are consistent."""
 
     proverb_ids_set = set(proverbs.keys())
-    difficulty_ids_set = set(difficulty)
+    difficulty_ids_set = set(difficulty_ratings)
 
     proverbs_not_ranked = proverb_ids_set - difficulty_ids_set
     if proverbs_not_ranked:
