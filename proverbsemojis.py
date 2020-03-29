@@ -216,7 +216,7 @@ def main_play(req):
         if buff_size <= len(to_be_found):
             buff_size += BUFFER_SIZE_STEP
             user_data["buffer_size"] = buff_size
-        to_be_seen = to_be_found[:buff_size]
+        to_be_seen = to_be_found[:buff_size]  # no need to redefine `rotation`
         user_data["seen"] = []
 
         resp = add_text(
@@ -225,11 +225,13 @@ def main_play(req):
             "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede "
             "ajuda a alguém que esteja por perto \U0001F60E",
         )
-        resp = add_text(
-            resp,
-            "Assim que fizeres mais algum progresso posso começar a mostrar "
-            "outros provérbios ainda mais difíceis!",
-        )
+        # Tell the player if there are other proverbs the player won't see yet
+        if len(to_be_found) > len(to_be_seen):
+            resp = add_text(
+                resp,
+                "Assim que fizeres mais algum progresso posso começar "
+                "a mostrar outros provérbios ainda mais difíceis!",
+            )
 
     proverb_id = to_be_seen[0]
     proverb = proverbs[proverb_id]
