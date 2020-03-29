@@ -1,5 +1,5 @@
 # Unicode code points taken from http://www.unicode.org/emoji/charts/full-emoji-list.html
-proverbs = [
+proverbs = {
     1: {
         "emojis": "\U0001f40e \U0001f3b2 \U0001f648 \U0001f601",  # (HORSE) (GAME DIE) (SEE-NO-EVIL MONKEY) (GRINNING FACE WITH SMILING EYES)
         "intent": "proverb_dont_check_teeth_of_gifted_horse",
@@ -85,4 +85,4 @@ proverbs = [
         "intent": "proverb_cat_ate_your_tongue",
         "hint": None,
     },
-]
+}
