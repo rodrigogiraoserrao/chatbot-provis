@@ -221,9 +221,14 @@ def main_play(req):
         
         resp = add_text(
             resp,
-            "Já te mostrei alguns provérbios diferentes, agora vou começar " + \
-            "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede " + \
+            "Já te mostrei alguns provérbios diferentes, agora vou começar "
+            "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede "
             "ajuda a alguém que esteja por perto \U0001F60E"
+        )
+        resp = add_text(
+            resp,
+            "Assim que fizeres mais algum progresso posso começar a mostrar "
+            "outros provérbios ainda mais difíceis!"
         )
 
     proverb_id = to_be_seen[0]
