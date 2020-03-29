@@ -223,7 +223,8 @@ def main_play(req):
             resp,
             "Já te mostrei alguns provérbios diferentes, agora vou começar "
             "a repeti-los, ok? Se estiveres mesmo com dificuldades, pede "
-            "ajuda a alguém que esteja por perto \U0001F60E",
+            "ajuda a alguém que esteja por perto \U0001F60E... "
+            "Ou pede-me uma pista!",
         )
         # Tell the player if there are other proverbs the player won't see yet
         if len(to_be_found) > len(to_be_seen):
